@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nueva Planificación - NataPlan</title>
+    <title>Editar Planificación - NataPlan</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" href="image/favicon.ico" type="image/x-icon">
@@ -21,8 +21,7 @@
                 <ul>
                     <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
                     <li><a href="planifications.html"><i class="fas fa-calendar-alt"></i> Mis Planificaciones</a></li>
-                    <li><a href="new-planification.html" class="active"><i class="fas fa-plus-circle"></i> Nueva
-                            Planificación</a></li>
+                    <li><a href="new-planification.html"><i class="fas fa-plus-circle"></i> Nueva Planificación</a></li>
                     <li><a href="help.html"><i class="fas fa-question-circle"></i> Ayuda</a></li>
                 </ul>
             </nav>
@@ -32,14 +31,15 @@
     <main>
         <section class="page-header">
             <div class="container">
-                <h2><i class="fas fa-plus-circle"></i> Nueva Planificación</h2>
-                <p>Crea una nueva planificación de entrenamiento</p>
+                <h2><i class="fas fa-edit"></i> Editar Planificación</h2>
+                <p>Modifica tu planificación de entrenamiento</p>
             </div>
         </section>
 
         <section class="new-planification-form">
             <div class="container">
                 <form id="planificationForm">
+                    <input type="hidden" id="planId">
                     <div class="form-steps">
                         <div class="step-indicator active" data-step="1">
                             <div class="step-number">1</div>
@@ -167,7 +167,7 @@
 
                         <div class="form-buttons">
                             <button type="button" class="btn btn-secondary" id="prev4">Anterior</button>
-                            <button type="submit" class="btn btn-success" id="savePlan">Guardar Planificación</button>
+                            <button type="submit" class="btn btn-success" id="savePlan">Guardar Cambios</button>
                         </div>
                     </div>
                 </form>
@@ -355,7 +355,7 @@
     </template>
 
     <script src="js/main.js"></script>
-    <script src="js/new-planification.js"></script>
+    <script src="js/edit-planification.js"></script>
 </body>
 
 </html>

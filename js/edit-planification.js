@@ -1,6 +1,6 @@
 /**
- * NataPlan - new-planification.js
- * JavaScript para la página de creación de planificaciones
+ * NataPlan - edit-planification.js
+ * JavaScript para la página de edición de planificaciones
  */
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const cancel1Btn = document.getElementById('cancel1');
 
     // Campos de formulario
+    const planIdInput = document.getElementById('planId');
     const planNameInput = document.getElementById('planName');
     const startDateInput = document.getElementById('startDate');
     const endDateInput = document.getElementById('endDate');
@@ -42,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Estado de la aplicación - aquí se guardará la planificación
     let planState = {
+        id: '',
         name: '',
         startDate: '',
         endDate: '',
@@ -54,6 +56,27 @@ document.addEventListener('DOMContentLoaded', function () {
         microcycles: []
     };
 
+    // Obtener el ID de la planificación de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const planId = urlParams.get('id');
+
+    // Si no hay ID, redirigir a la lista de planificaciones
+    if (!planId) {
+        window.location.href = 'planifications.html';
+        return;
+    }
+
+    // Cargar la planificación existente
+    const existingPlan = getPlanificationById(planId);
+    if (!existingPlan) {
+        alert('No se encontró la planificación solicitada');
+        window.location.href = 'planifications.html';
+        return;
+    }
+
+    // Inicializar el formulario con los datos existentes
+    initializeForm(existingPlan);
+
     // ===== Eventos =====
 
     // Navegación entre pasos
@@ -61,7 +84,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (validateStep1()) {
             updatePlanFromInputs();
             goToStep(2);
-            updateMacroMesoCycles();
         }
     });
 
@@ -82,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     prev4Btn.addEventListener('click', () => goToStep(3));
 
-    // Cancelar la creación de la planificación
+    // Cancelar la edición de la planificación
     cancel1Btn.addEventListener('click', () => {
         if (confirm('¿Estás seguro de que deseas cancelar? Los cambios no guardados se perderán.')) {
             window.location.href = 'planifications.html';
@@ -116,21 +138,85 @@ document.addEventListener('DOMContentLoaded', function () {
     startDateInput.addEventListener('change', updateTotalWeeks);
     endDateInput.addEventListener('change', updateTotalWeeks);
 
-    // ===== Inicialización =====
+    /**
+     * Inicializa el formulario con los datos de la planificación existente
+     * @param {Object} plan - La planificación a editar
+     */
+    function initializeForm(plan) {
+        // Copiar los datos de la planificación al estado local
+        planState = JSON.parse(JSON.stringify(plan));
 
-    // Establecer fecha actual como valor predeterminado
-    const today = new Date().toISOString().split('T')[0];
-    startDateInput.value = today;
+        // Paso 1: Información Básica
+        planIdInput.value = plan.id || '';
+        planNameInput.value = plan.name || '';
+        startDateInput.value = plan.startDate || '';
+        endDateInput.value = plan.endDate || '';
+        descriptionInput.value = plan.description || '';
 
-    // Calcular fecha de fin predeterminada (1 año después)
-    const nextYear = new Date();
-    nextYear.setFullYear(nextYear.getFullYear() + 1);
-    endDateInput.value = nextYear.toISOString().split('T')[0];
+        // Actualizar semanas totales
+        updateTotalWeeks();
 
-    // Calcular semanas iniciales
-    updateTotalWeeks();
+        // Paso 2: Ciclos
+        // Limpiar contenedores primero
+        macrocyclesContainer.innerHTML = '';
+        mesocyclesContainer.innerHTML = '';
 
-    // ===== Funciones =====
+        // Agregar macrociclos existentes
+        if (plan.macrocycles && plan.macrocycles.length > 0) {
+            plan.macrocycles.forEach(macro => {
+                addMacrocycle(macro.startWeek, macro.endWeek, macro.name, macro.type);
+            });
+        }
+
+        // Agregar mesociclos existentes
+        if (plan.mesocycles && plan.mesocycles.length > 0) {
+            plan.mesocycles.forEach(meso => {
+                addMesocycle(meso.startWeek, meso.endWeek, meso.name, meso.type);
+            });
+        }
+
+        // Paso 3: Competencias y Tests
+        // Limpiar contenedores
+        competitionsContainer.innerHTML = '';
+        testsContainer.innerHTML = '';
+
+        // Agregar competencias existentes
+        if (plan.competitions && plan.competitions.length > 0) {
+            plan.competitions.forEach(comp => {
+                // Añadir una competencia vacía primero
+                addCompetition();
+
+                // Luego completar con datos
+                const items = competitionsContainer.querySelectorAll('.competition-item');
+                const item = items[items.length - 1];
+
+                item.querySelector('.competition-name').value = comp.name || '';
+                item.querySelector('.competition-type').value = comp.type || 'regional';
+                item.querySelector('.competition-date').value = comp.date || '';
+                item.querySelector('.competition-week').value = comp.week || '';
+            });
+        }
+
+        // Agregar tests existentes
+        if (plan.tests && plan.tests.length > 0) {
+            plan.tests.forEach(test => {
+                // Añadir un test vacío primero
+                addTest();
+
+                // Luego completar con datos
+                const items = testsContainer.querySelectorAll('.test-item');
+                const item = items[items.length - 1];
+
+                item.querySelector('.test-name').value = test.name || '';
+                item.querySelector('.test-date').value = test.date || '';
+                item.querySelector('.test-week').value = test.week || '';
+                item.querySelector('.test-description').value = test.description || '';
+            });
+        }
+
+        // Configurar volumen en el paso 4
+        setupVolumeGrid();
+    }
 
     /**
      * Navega a un paso específico del formulario
@@ -278,6 +364,7 @@ document.addEventListener('DOMContentLoaded', function () {
      * Actualiza el estado de la planificación desde los inputs básicos
      */
     function updatePlanFromInputs() {
+        planState.id = planIdInput.value;
         planState.name = planNameInput.value.trim();
         planState.startDate = startDateInput.value;
         planState.endDate = endDateInput.value;
@@ -376,6 +463,14 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
+        // Mantener los atributos createdAt y updatedAt
+        if (existingPlan.createdAt) {
+            planState.createdAt = existingPlan.createdAt;
+        }
+        
+        // Actualizar timestamp
+        planState.updatedAt = new Date().toISOString();
+
         // Verificar tamaño de datos
         const planJson = JSON.stringify(planState);
         console.log("Tamaño de datos:", planJson.length, "bytes");
@@ -390,65 +485,38 @@ document.addEventListener('DOMContentLoaded', function () {
         return savePlanification(planState);
     }
 
-
     /**
- * Calcula el total de semanas entre las fechas seleccionadas
- * @returns {number} - Total de semanas
- */
-function calculateTotalWeeks() {
-    if (!startDateInput.value || !endDateInput.value) return 0;
+     * Calcula el total de semanas entre las fechas seleccionadas
+     * @returns {number} - Total de semanas
+     */
+    function calculateTotalWeeks() {
+        if (!startDateInput.value || !endDateInput.value) return 0;
 
-    const start = new Date(startDateInput.value);
-    const end = new Date(endDateInput.value);
-    
-    // Establecer horas a 0 para comparación precisa de días
-    start.setHours(0, 0, 0, 0);
-    end.setHours(0, 0, 0, 0);
+        const start = new Date(startDateInput.value);
+        const end = new Date(endDateInput.value);
+        
+        // Establecer horas a 0 para comparación precisa de días
+        start.setHours(0, 0, 0, 0);
+        end.setHours(0, 0, 0, 0);
 
-    // Calcular diferencia en milisegundos
-    const diffTime = Math.abs(end - start);
-    // Convertir a días
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    // Calcular semanas (redondeando hacia arriba)
-    const diffWeeks = Math.ceil(diffDays / 7);
-    
-    console.log('Días de diferencia:', diffDays);
-    console.log('Semanas calculadas:', diffWeeks);
-    
-    return diffWeeks;
-}
+        // Calcular diferencia en milisegundos
+        const diffTime = Math.abs(end - start);
+        // Convertir a días
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        // Calcular semanas (redondeando hacia arriba)
+        const diffWeeks = Math.ceil(diffDays / 7);
+        
+        console.log('Días de diferencia:', diffDays);
+        console.log('Semanas calculadas:', diffWeeks);
+        
+        return diffWeeks;
+    }
 
     /**
      * Actualiza el contador de semanas totales
      */
     function updateTotalWeeks() {
         planState.totalWeeks = calculateTotalWeeks();
-    }
-
-    /**
-     * Actualiza los ciclos después de cambiar las fechas
-     */
-    function updateMacroMesoCycles() {
-        // Si no hay macrociclos, añadir uno predeterminado
-        if (macrocyclesContainer.children.length === 0) {
-            // Macrociclo preparatorio (2/3 del tiempo)
-            const prepWeeks = Math.floor(planState.totalWeeks * 2 / 3);
-            addMacrocycle(1, prepWeeks, 'Preparatorio', 'preparatorio');
-
-            // Macrociclo competitivo (1/3 del tiempo restante)
-            addMacrocycle(prepWeeks + 1, planState.totalWeeks, 'Competitivo', 'competitivo');
-        }
-
-        // Si no hay mesociclos, añadir cuatro predeterminados
-        if (mesocyclesContainer.children.length === 0) {
-            const mesosCount = 4;
-            const mesoWeeks = Math.floor(planState.totalWeeks / mesosCount);
-
-            addMesocycle(1, mesoWeeks, 'Base', 'base');
-            addMesocycle(mesoWeeks + 1, mesoWeeks * 2, 'Específico', 'especifico');
-            addMesocycle(mesoWeeks * 2 + 1, mesoWeeks * 3, 'Precompetitivo', 'precompetitivo');
-            addMesocycle(mesoWeeks * 3 + 1, planState.totalWeeks, 'Competitivo', 'competitivo');
-        }
     }
 
     /**
@@ -639,26 +707,49 @@ function calculateTotalWeeks() {
         });
     }
 
-    //**
-    * Configura la cuadrícula de volumen semanal
-    */
-   function setupVolumeGrid() {
-       volumeContainer.innerHTML = '';
-       const template = document.getElementById('volume-week-template');
-       
-       // Asegurarnos de usar el valor actualizado de totalWeeks
-       updateTotalWeeks(); // Actualizar el valor antes de generar la cuadrícula
-       
-       // Crear un elemento para cada semana
-       for (let i = 0; i < planState.totalWeeks; i++) {
-           const clone = document.importNode(template.content, true);
-           const weekNumber = i + 1;
-           
-           clone.querySelector('.week-number').textContent = weekNumber;
-           
-           // Agregar al contenedor
-           volumeContainer.appendChild(clone);
-       }
-   }
-   
-}); // <-- Esta es la llave que falta para cerrar el evento DOMContentLoaded
+    /**
+     * Configura la cuadrícula de volumen semanal
+     */
+    function setupVolumeGrid() {
+        volumeContainer.innerHTML = '';
+        const template = document.getElementById('volume-week-template');
+        
+        // Asegurarnos de usar el valor actualizado de totalWeeks
+        updateTotalWeeks(); // Actualizar el valor antes de generar la cuadrícula
+        
+        // Crear un elemento para cada semana
+        for (let i = 0; i < planState.totalWeeks; i++) {
+            const clone = document.importNode(template.content, true);
+            const weekNumber = i + 1;
+            
+            clone.querySelector('.week-number').textContent = weekNumber;
+            
+            // Si ya tenemos datos para esta semana, usarlos
+            if (planState.microcycles && planState.microcycles[i]) {
+                clone.querySelector('.week-volume').value = planState.microcycles[i].volumeMeters || 0;
+            }
+            
+            // Agregar al contenedor
+            volumeContainer.appendChild(clone);
+        }
+    }
+
+    /**
+     * Calcula el número de semana en una fecha desde la fecha inicial
+     * @param {Date} startDate - La fecha de inicio
+     * @param {Date} date - La fecha para la cual se calcula la semana
+     * @returns {number} - El número de semana (1-based)
+     */
+    function calculateWeekNumber(startDate, date) {
+        const start = new Date(startDate);
+        start.setHours(0, 0, 0, 0);
+        
+        const target = new Date(date);
+        target.setHours(0, 0, 0, 0);
+        
+        const millisecondsPerDay = 24 * 60 * 60 * 1000;
+        const diffDays = Math.round((target - start) / millisecondsPerDay);
+        
+        return Math.floor(diffDays / 7) + 1;
+    }
+});

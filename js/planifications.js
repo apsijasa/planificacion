@@ -189,9 +189,19 @@ document.addEventListener('DOMContentLoaded', function() {
      * @returns {string} - Estado de la planificación (Activo, Completado, Borrador)
      */
     function getPlanStatus(plan) {
+        // Convertir fechas a objetos Date para comparación correcta
         const now = new Date();
         const startDate = new Date(plan.startDate);
         const endDate = new Date(plan.endDate);
+        
+        // Ajustar para comparar solo fechas sin horas
+        now.setHours(0, 0, 0, 0);
+        startDate.setHours(0, 0, 0, 0);
+        endDate.setHours(0, 0, 0, 0);
+        
+        console.log('Fecha actual:', now);
+        console.log('Fecha inicio:', startDate);
+        console.log('Fecha fin:', endDate);
         
         if (now < startDate) {
             return 'Borrador';
