@@ -627,7 +627,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const isInPlanRange = currentDate >= new Date(planification.startDate) && 
                                   currentDate <= new Date(planification.endDate);
             
-            let dayContent = `<div class="day-number">${day}</div>`;
+            let dayEvents = null;
             
             if (isInPlanRange) {
                 // Resaltar el día si está en el rango de planificación
@@ -637,7 +637,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const weekNumber = calculateWeekNumber(new Date(planification.startDate), currentDate);
                 
                 // Eventos para este día
-                const dayEvents = document.createElement('div');
+                dayEvents = document.createElement('div');
                 dayEvents.className = 'day-events';
                 
                 // Verificar competencias
@@ -673,8 +673,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     });
                 }
-                
-                dayEl.appendChild(dayEvents);
             }
             
             dayEl.innerHTML = `<div class="day-number">${day}</div>`;
@@ -814,52 +812,4 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
     }
     
-    /**
-     * Determina el estado de una planificación
-     * @param {Object} plan - Objeto de planificación
-     * @returns {string} - Estado de la planificación (Activo, Completado, Borrador)
-     */
-    function getPlanStatus(plan) {
-        // Convertir fechas a objetos Date para comparación correcta
-        const now = new Date();
-        const startDate = new Date(plan.startDate);
-        const endDate = new Date(plan.endDate);
-        
-        // Ajustar para comparar solo fechas sin horas
-        now.setHours(0, 0, 0, 0);
-        startDate.setHours(0, 0, 0, 0);
-        endDate.setHours(0, 0, 0, 0);
-        
-        console.log('Fecha actual:', now);
-        console.log('Fecha inicio:', startDate);
-        console.log('Fecha fin:', endDate);
-        
-        if (now < startDate) {
-            return 'Borrador';
-        } else if (now > endDate) {
-            return 'Completado';
-        } else {
-            return 'Activo';
-        }
-    }
-    
-    /**
-     * Determina la clase CSS para el estado de una planificación
-     * @param {Object} plan - Objeto de planificación
-     * @returns {string} - Clase CSS para el estado
-     */
-    function getPlanStatusClass(plan) {
-        const status = getPlanStatus(plan);
-        
-        switch (status) {
-            case 'Activo':
-                return 'active';
-            case 'Completado':
-                return 'completed';
-            case 'Borrador':
-                return 'draft';
-            default:
-                return '';
-        }
-    }
 });

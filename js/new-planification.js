@@ -639,9 +639,9 @@ function calculateTotalWeeks() {
         });
     }
 
-    //**
-    * Configura la cuadrícula de volumen semanal
-    */
+    /**
+ * Configura la cuadrícula de volumen semanal
+ */
    function setupVolumeGrid() {
        volumeContainer.innerHTML = '';
        const template = document.getElementById('volume-week-template');
