@@ -86,33 +86,48 @@ function formatDate(date) {
  * @param {Object} planification - El objeto de planificación a guardar
  */
 function savePlanification(planification) {
-    if (!storageAvailable('localStorage')) {
-        alert('No se puede guardar la planificación: almacenamiento local no disponible');
+    try {
+        if (!storageAvailable('localStorage')) {
+            throw new Error('Almacenamiento local no disponible');
+        }
+        
+        // Obtener planificaciones existentes
+        let planifications = [];
+        try {
+            planifications = JSON.parse(localStorage.getItem('nataplan_planifications') || '[]');
+        } catch (e) {
+            console.error("Error al leer planificaciones:", e);
+            planifications = [];
+        }
+        
+        // Si la planificación ya existe (actualización), actualizarla
+        const existingIndex = planifications.findIndex(p => p.id === planification.id);
+        
+        if (existingIndex >= 0) {
+            planifications[existingIndex] = planification;
+        } else {
+            // Es una nueva planificación, asignar ID y agregar
+            planification.id = generateUUID();
+            planification.createdAt = new Date().toISOString();
+            planifications.push(planification);
+        }
+        
+        // Actualizar timestamp
+        planification.updatedAt = new Date().toISOString();
+        
+        // Guardar en localStorage con manejo de errores
+        try {
+            localStorage.setItem('nataplan_planifications', JSON.stringify(planifications));
+            return true;
+        } catch (e) {
+            console.error("Error al guardar en localStorage:", e);
+            throw new Error('No se pudo guardar en localStorage: ' + e.message);
+        }
+    } catch (error) {
+        console.error("Error en savePlanification:", error);
+        alert("Error al guardar: " + error.message);
         return false;
     }
-    
-    // Obtener planificaciones existentes
-    let planifications = JSON.parse(localStorage.getItem('nataplan_planifications') || '[]');
-    
-    // Si la planificación ya existe (actualización), actualizarla
-    const existingIndex = planifications.findIndex(p => p.id === planification.id);
-    
-    if (existingIndex >= 0) {
-        planifications[existingIndex] = planification;
-    } else {
-        // Es una nueva planificación, asignar ID y agregar
-        planification.id = generateUUID();
-        planification.createdAt = new Date().toISOString();
-        planifications.push(planification);
-    }
-    
-    // Actualizar timestamp
-    planification.updatedAt = new Date().toISOString();
-    
-    // Guardar en localStorage
-    localStorage.setItem('nataplan_planifications', JSON.stringify(planifications));
-    
-    return true;
 }
 
 /**
