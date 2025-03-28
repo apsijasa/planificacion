@@ -7,6 +7,138 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" href="image/favicon.ico" type="image/x-icon">
+    <style>
+        /* Estilos específicos para el manual de ayuda */
+        .help-content {
+            background-color: white;
+            padding: var(--spacing-lg) 0;
+        }
+        
+        .help-section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .help-section h2 {
+            color: var(--primary-dark);
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .help-section h3 {
+            color: var(--primary);
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .help-section h4 {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-top: var(--spacing-md);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .help-section p {
+            margin-bottom: var(--spacing-md);
+            line-height: 1.7;
+        }
+        
+        .help-section ul, .help-section ol {
+            margin-bottom: var(--spacing-md);
+            padding-left: var(--spacing-lg);
+        }
+        
+        .help-section li {
+            margin-bottom: var(--spacing-xs);
+            list-style-type: disc;
+        }
+        
+        .help-section ol li {
+            list-style-type: decimal;
+        }
+        
+        .help-section blockquote {
+            background-color: var(--primary-very-light);
+            border-left: 4px solid var(--primary);
+            padding: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+            font-style: italic;
+            color: var(--text-medium);
+        }
+        
+        .help-section blockquote p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .help-section hr {
+            border: none;
+            border-top: 1px solid var(--border-color);
+            margin: var(--spacing-lg) 0;
+        }
+        
+        .help-toc {
+            background-color: var(--background-light);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .help-toc h3 {
+            margin-top: 0;
+        }
+        
+        .help-toc ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .help-toc li {
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .help-toc a {
+            text-decoration: none;
+            color: var(--primary);
+        }
+        
+        .help-toc a:hover {
+            text-decoration: underline;
+        }
+        
+        .help-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: var(--spacing-lg);
+            gap: var(--spacing-md);
+        }
+        
+        .help-section code {
+            background-color: var(--background-light);
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        
+        @media print {
+            header, footer, .help-actions, .help-toc {
+                display: none;
+            }
+            
+            body, .container {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            
+            .help-content {
+                padding: 0;
+            }
+            
+            .page-header {
+                margin-bottom: var(--spacing-md);
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -17,14 +149,14 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="index.html" class="active"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
                     <li><a href="planifications.html"><i class="fas fa-calendar-alt"></i> Mis Planificaciones</a></li>
                     <li><a href="new-planification.html"><i class="fas fa-plus-circle"></i> Nueva Planificación</a></li>
-                    <li><a href="help.html"><i class="fas fa-question-circle"></i> Ayuda</a></li>
+                    <li><a href="help.html" class="active"><i class="fas fa-question-circle"></i> Ayuda</a></li>
                 </ul>
             </nav>
         </div>
-    </header>>
+    </header>
     
     <main>
         <section class="page-header">
@@ -36,15 +168,382 @@
         
         <section class="help-content">
             <div class="container">
-                <!-- Contenido de ayuda -->
+                <!-- Tabla de contenido -->
+                <div class="help-toc">
+                    <h3>Índice</h3>
+                    <ul>
+                        <li><a href="#introduccion">1. Introducción a NataPlan</a></li>
+                        <li><a href="#primeros-pasos">2. Primeros Pasos</a></li>
+                        <li><a href="#crear-planificacion">3. Crear una Nueva Planificación</a></li>
+                        <li><a href="#gestionar-planificaciones">4. Gestionar tus Planificaciones</a></li>
+                        <li><a href="#ver-planificacion">5. Ver y Analizar una Planificación</a></li>
+                        <li><a href="#editar-planificacion">6. Editar una Planificación Existente</a></li>
+                        <li><a href="#exportar-imprimir">7. Exportar e Imprimir Planificaciones</a></li>
+                        <li><a href="#preguntas-frecuentes">8. Preguntas Frecuentes</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Acciones rápidas -->
+                <div class="help-actions">
+                    <button onclick="window.print()" class="btn btn-outline"><i class="fas fa-print"></i> Imprimir Manual</button>
+                    <button onclick="exportManual()" class="btn btn-primary"><i class="fas fa-file-export"></i> Exportar Manual</button>
+                </div>
+                
+                <!-- Manual de ayuda -->
+                <div class="help-manual">
+                    <div id="introduccion" class="help-section">
+                        <h2>1. Introducción a NataPlan</h2>
+                        <p>NataPlan es una aplicación web diseñada específicamente para entrenadores de natación que necesitan planificar de manera eficiente las temporadas de entrenamiento. La aplicación permite:</p>
+                        <ul>
+                            <li>Crear planificaciones detalladas con ciclos de entrenamiento organizados</li>
+                            <li>Programar competencias y tests a lo largo de la temporada</li>
+                            <li>Gestionar el volumen de entrenamiento semanal</li>
+                            <li>Visualizar la progresión de la carga y la periodización</li>
+                            <li>Exportar los datos para su uso fuera de la plataforma</li>
+                        </ul>
+                        <p>La plataforma está diseñada para ser intuitiva y fácil de usar, siguiendo las necesidades específicas de la planificación en natación.</p>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div id="primeros-pasos" class="help-section">
+                        <h2>2. Primeros Pasos</h2>
+                        
+                        <h3>Navegación Principal</h3>
+                        <p>La barra de navegación en la parte superior de NataPlan te permite acceder a las secciones principales:</p>
+                        <ul>
+                            <li><strong>Inicio</strong>: Página principal con información general</li>
+                            <li><strong>Mis Planificaciones</strong>: Lista de todas tus planificaciones guardadas</li>
+                            <li><strong>Nueva Planificación</strong>: Formulario para crear una planificación desde cero</li>
+                            <li><strong>Ayuda</strong>: Esta página de ayuda y documentación</li>
+                        </ul>
+                        
+                        <h3>Almacenamiento de Datos</h3>
+                        <p>NataPlan utiliza el almacenamiento local de tu navegador para guardar tus planificaciones. Esto significa que:</p>
+                        <ul>
+                            <li>Tus datos se almacenan en tu propio dispositivo</li>
+                            <li>No necesitas conexión a internet después de cargar la aplicación</li>
+                            <li>Para acceder a tus planificaciones desde otro dispositivo, necesitarás exportarlas e importarlas manualmente</li>
+                        </ul>
+                        
+                        <blockquote>
+                            <p><strong>Nota importante</strong>: Limpiar la caché o los datos del navegador puede eliminar tus planificaciones guardadas. Te recomendamos exportar regularmente tus planificaciones importantes.</p>
+                        </blockquote>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div id="crear-planificacion" class="help-section">
+                        <h2>3. Crear una Nueva Planificación</h2>
+                        <p>Para crear una nueva planificación, haz clic en <strong>Nueva Planificación</strong> en la barra de navegación. El proceso se divide en 4 pasos:</p>
+                        
+                        <h3>Paso 1: Información Básica</h3>
+                        <p>En esta sección defines los datos fundamentales de tu planificación:</p>
+                        <ul>
+                            <li><strong>Nombre de la Planificación</strong>: Un título descriptivo (ej. "Temporada 2025", "Preparación Campeonato Nacional")</li>
+                            <li><strong>Fecha de Inicio</strong>: El primer día de tu temporada de entrenamiento</li>
+                            <li><strong>Fecha de Fin</strong>: El último día de tu temporada</li>
+                            <li><strong>Descripción</strong>: Información adicional como objetivos o categoría de los nadadores</li>
+                        </ul>
+                        <p>Una vez completado, haz clic en <strong>Siguiente</strong> para continuar.</p>
+                        
+                        <h3>Paso 2: Ciclos de Entrenamiento</h3>
+                        <p>Aquí defines la estructura de ciclos que seguirá tu planificación:</p>
+                        
+                        <h4>Macrociclos</h4>
+                        <p>Los macrociclos son las unidades más grandes de planificación. Para cada macrociclo, define:</p>
+                        <ul>
+                            <li><strong>Nombre</strong>: Identificador del macrociclo (ej. "Preparatorio")</li>
+                            <li><strong>Tipo</strong>: Selecciona entre Preparatorio, Competitivo o Transición</li>
+                            <li><strong>Semana Inicio y Fin</strong>: El rango de semanas que abarca</li>
+                        </ul>
+                        <p>Para añadir un nuevo macrociclo, haz clic en <strong>Añadir Macrociclo</strong>.</p>
+                        
+                        <h4>Mesociclos</h4>
+                        <p>Los mesociclos son subdivisiones dentro de los macrociclos. Para cada mesociclo, define:</p>
+                        <ul>
+                            <li><strong>Nombre</strong>: Identificador del mesociclo (ej. "Base", "Específico")</li>
+                            <li><strong>Tipo</strong>: Selecciona entre Base, Específico, Precompetitivo, Competitivo o Transición</li>
+                            <li><strong>Semana Inicio y Fin</strong>: El rango de semanas que abarca</li>
+                        </ul>
+                        <p>Para añadir un nuevo mesociclo, haz clic en <strong>Añadir Mesociclo</strong>.</p>
+                        
+                        <blockquote>
+                            <p><strong>Consejo</strong>: Los ciclos no deben superponerse en exceso. Intenta que cada semana pertenezca principalmente a un macrociclo y un mesociclo específicos.</p>
+                        </blockquote>
+                        
+                        <p>Después de configurar los ciclos, haz clic en <strong>Siguiente</strong>.</p>
+                        
+                        <h3>Paso 3: Competencias y Tests</h3>
+                        <p>Esta sección te permite programar eventos importantes durante la temporada:</p>
+                        
+                        <h4>Competencias</h4>
+                        <p>Para cada competencia, define:</p>
+                        <ul>
+                            <li><strong>Nombre</strong>: El nombre del evento</li>
+                            <li><strong>Tipo</strong>: Regional, Nacional o Internacional</li>
+                            <li><strong>Fecha</strong>: El día de la competencia</li>
+                        </ul>
+                        <p>El sistema calculará automáticamente la semana correspondiente.</p>
+                        
+                        <h4>Tests</h4>
+                        <p>Los tests son evaluaciones para medir el progreso de los nadadores. Define:</p>
+                        <ul>
+                            <li><strong>Nombre</strong>: Identificador del test (ej. "Test 400m")</li>
+                            <li><strong>Fecha</strong>: Cuándo se realizará</li>
+                            <li><strong>Descripción</strong>: Detalles adicionales sobre el protocolo o mediciones</li>
+                        </ul>
+                        <p>Después de agregar los eventos, haz clic en <strong>Siguiente</strong>.</p>
+                        
+                        <h3>Paso 4: Configuración Avanzada</h3>
+                        <p>En este paso final:</p>
+                        <ul>
+                            <li><strong>Configuración de Volumen</strong>: Define el volumen de entrenamiento para cada semana en metros</li>
+                            <li>Esta información se utilizará para generar gráficos y análisis de carga</li>
+                        </ul>
+                        <p>Finalmente, haz clic en <strong>Guardar Planificación</strong> para completar el proceso.</p>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div id="gestionar-planificaciones" class="help-section">
+                        <h2>4. Gestionar tus Planificaciones</h2>
+                        <p>La página <strong>Mis Planificaciones</strong> muestra todas tus planificaciones guardadas. Desde aquí puedes:</p>
+                        
+                        <h3>Buscar y Filtrar</h3>
+                        <ul>
+                            <li>Utiliza la <strong>barra de búsqueda</strong> para encontrar planificaciones por nombre</li>
+                            <li>Filtra por <strong>año</strong> para ver planificaciones de un período específico</li>
+                            <li>Filtra por <strong>estado</strong> (Activo, Completado, Borrador) para organizar tu trabajo</li>
+                        </ul>
+                        
+                        <h3>Operaciones con Planificaciones</h3>
+                        <p>Para cada planificación, dispones de tres botones principales:</p>
+                        <ul>
+                            <li><strong>Ver</strong>: Abre la planificación en modo visualización con todas las estadísticas y gráficos</li>
+                            <li><strong>Editar</strong>: Te permite modificar cualquier aspecto de la planificación</li>
+                            <li><strong>Eliminar</strong>: Borra permanentemente la planificación (requiere confirmación)</li>
+                        </ul>
+                        
+                        <h3>Estado de las Planificaciones</h3>
+                        <p>Las planificaciones mostrarán automáticamente uno de estos estados:</p>
+                        <ul>
+                            <li><strong>Borrador</strong>: La fecha de inicio aún no ha llegado</li>
+                            <li><strong>Activo</strong>: Estamos dentro del rango de fechas de la planificación</li>
+                            <li><strong>Completado</strong>: La fecha de fin ya ha pasado</li>
+                        </ul>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div id="ver-planificacion" class="help-section">
+                        <h2>5. Ver y Analizar una Planificación</h2>
+                        <p>Cuando hagas clic en <strong>Ver</strong> en una planificación, accederás a una interfaz con cuatro pestañas diferentes:</p>
+                        
+                        <h3>Vista General</h3>
+                        <p>Muestra un resumen completo de la planificación:</p>
+                        <ul>
+                            <li><strong>Líneas de tiempo</strong> visuales para macrociclos y mesociclos</li>
+                            <li>Lista de <strong>competencias</strong> programadas</li>
+                            <li>Lista de <strong>tests</strong> programados</li>
+                            <li><strong>Gráfico de volumen</strong> que muestra la progresión del volumen a lo largo de la temporada</li>
+                        </ul>
+                        
+                        <h3>Vista Mensual</h3>
+                        <p>Presenta un <strong>calendario mensual</strong> donde puedes:</p>
+                        <ul>
+                            <li>Navegar entre meses con los botones de flechas</li>
+                            <li>Ver los eventos (competencias y tests) programados para cada día</li>
+                            <li>Identificar el rango de la planificación resaltado en el calendario</li>
+                        </ul>
+                        
+                        <h3>Vista Semanal</h3>
+                        <p>Ofrece una vista detallada semana a semana:</p>
+                        <ul>
+                            <li>Navega entre semanas con los botones de flechas</li>
+                            <li>Observa el mesociclo actual y el volumen semanal planificado</li>
+                            <li>Ver el detalle diario con eventos programados</li>
+                        </ul>
+                        
+                        <h3>Gráficos</h3>
+                        <p>Proporciona visualizaciones avanzadas:</p>
+                        <ul>
+                            <li><strong>Volumen por Semana</strong>: Gráfico de barras con el volumen semanal</li>
+                            <li><strong>Volumen por Mesociclo</strong>: Volumen total en cada fase de entrenamiento</li>
+                            <li><strong>Distribución de Competencias</strong>: Gráfico circular con los tipos de competencia</li>
+                            <li><strong>Intensidad por Semana</strong>: Estimación visual de la intensidad a lo largo de la temporada</li>
+                        </ul>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div id="editar-planificacion" class="help-section">
+                        <h2>6. Editar una Planificación Existente</h2>
+                        <p>Para modificar una planificación, haz clic en <strong>Editar</strong> desde la lista de planificaciones. El proceso sigue los mismos cuatro pasos de la creación, pero con los datos ya cargados:</p>
+                        <ol>
+                            <li><strong>Información Básica</strong>: Modifica nombre, fechas o descripción</li>
+                            <li><strong>Ciclos</strong>: Ajusta los macrociclos y mesociclos existentes o añade nuevos</li>
+                            <li><strong>Competencias y Tests</strong>: Actualiza, añade o elimina eventos</li>
+                            <li><strong>Configuración Avanzada</strong>: Modifica los volúmenes semanales</li>
+                        </ol>
+                        <p>Después de realizar tus cambios, haz clic en <strong>Guardar Cambios</strong> para actualizar la planificación.</p>
+                        
+                        <blockquote>
+                            <p><strong>Nota</strong>: Puedes cancelar la edición en cualquier momento haciendo clic en <strong>Cancelar</strong>, pero perderás todos los cambios no guardados.</p>
+                        </blockquote>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div id="exportar-imprimir" class="help-section">
+                        <h2>7. Exportar e Imprimir Planificaciones</h2>
+                        <p>NataPlan te permite exportar tus datos para usarlos fuera de la plataforma:</p>
+                        
+                        <h3>Exportación a CSV</h3>
+                        <p>Desde la vista de una planificación:</p>
+                        <ol>
+                            <li>Haz clic en el botón <strong>Exportar</strong></li>
+                            <li>Se descargará automáticamente un archivo CSV</li>
+                            <li>Este archivo puede abrirse con Excel u otras hojas de cálculo</li>
+                        </ol>
+                        
+                        <p>El archivo CSV contendrá secciones para:</p>
+                        <ul>
+                            <li>Información básica</li>
+                            <li>Macrociclos</li>
+                            <li>Mesociclos</li>
+                            <li>Competencias</li>
+                            <li>Tests</li>
+                            <li>Volumen semanal</li>
+                        </ul>
+                        
+                        <h3>Impresión</h3>
+                        <p>Para imprimir una planificación:</p>
+                        <ol>
+                            <li>Desde la vista de planificación, haz clic en el botón <strong>Imprimir</strong></li>
+                            <li>Se abrirá el diálogo de impresión del navegador</li>
+                            <li>Selecciona tus preferencias y confirma</li>
+                        </ol>
+                        
+                        <blockquote>
+                            <p><strong>Consejo</strong>: Para guardar como PDF en lugar de imprimir en papel, selecciona "Guardar como PDF" en las opciones de impresora.</p>
+                        </blockquote>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div id="preguntas-frecuentes" class="help-section">
+                        <h2>8. Preguntas Frecuentes</h2>
+                        
+                        <h3>¿Puedo perder mis datos?</h3>
+                        <p>Sí, ya que los datos se almacenan localmente en tu navegador. Recomendamos:</p>
+                        <ul>
+                            <li>Exportar regularmente tus planificaciones importantes</li>
+                            <li>No limpiar los datos del navegador sin haber exportado antes</li>
+                            <li>Considerar el uso de diferentes perfiles de navegador para separar el uso personal del profesional</li>
+                        </ul>
+                        
+                        <h3>¿Puedo compartir mis planificaciones con otros entrenadores?</h3>
+                        <p>Sí, a través de la función de exportación:</p>
+                        <ol>
+                            <li>Exporta la planificación a CSV</li>
+                            <li>Envía el archivo al otro entrenador</li>
+                            <li>(Por el momento, la importación directa no está soportada - se añadirá en futuras versiones)</li>
+                        </ol>
+                        
+                        <h3>¿Qué debo hacer si encuentro un error?</h3>
+                        <p>Si encuentras algún problema al usar NataPlan:</p>
+                        <ol>
+                            <li>Verifica que estás usando la última versión (actualiza la página)</li>
+                            <li>Intenta usar otro navegador para descartar problemas específicos</li>
+                            <li>Contacta soporte en: contacto@nataplan.com</li>
+                        </ol>
+                        
+                        <h3>¿Cómo calculo el volumen adecuado para mis nadadores?</h3>
+                        <p>El volumen apropiado depende de factores como:</p>
+                        <ul>
+                            <li>Edad y nivel de los nadadores</li>
+                            <li>Fase de la temporada (preparatoria, competitiva, etc.)</li>
+                            <li>Objetivos específicos</li>
+                        </ul>
+                        
+                        <p>Como guía general:</p>
+                        <ul>
+                            <li>Nadadores jóvenes (12-14 años): 15,000-25,000m/semana</li>
+                            <li>Nadadores intermedios (15-16 años): 25,000-35,000m/semana</li>
+                            <li>Nadadores avanzados (17+ años): 35,000-60,000m/semana</li>
+                        </ul>
+                        
+                        <p>Consulta con especialistas en metodología del entrenamiento para recomendaciones más específicas.</p>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="help-section">
+                        <p><em>Este manual fue creado para NataPlan v1.0 (2025)</em></p>
+                        <p><em>Última actualización: Marzo 2025</em></p>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
-    
+
     <footer>
-        <!-- Contenido del footer igual que en los otros archivos -->
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>NataPlan</h2>
+                    <p>Planificación de entrenamientos de natación</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Enlaces</h3>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="planifications.html">Mis Planificaciones</a></li>
+                        <li><a href="new-planification.html">Nueva Planificación</a></li>
+                        <li><a href="help.html">Ayuda</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contacto</h3>
+                    <p>¿Tienes preguntas o sugerencias?</p>
+                    <a href="mailto:contacto@nataplan.com">contacto@nataplan.com</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 NataPlan. Todos los derechos reservados.</p>
+            </div>
+        </div>
     </footer>
-    
+
     <script src="js/main.js"></script>
+    <script>
+        // Función para exportar el manual como un archivo de texto
+        function exportManual() {
+            // Recopila todo el contenido del manual
+            const manual = document.querySelector('.help-manual').innerText;
+            
+            // Crea un blob con el contenido
+            const blob = new Blob([manual], { type: 'text/plain' });
+            
+            // Crea una URL para el blob
+            const url = URL.createObjectURL(blob);
+            
+            // Crea un elemento de enlace para descargar
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Manual_NataPlan.txt';
+            
+            // Añade el enlace al documento y haz clic en él
+            document.body.appendChild(a);
+            a.click();
+            
+            // Limpia
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 100);
+        }
+    </script>
 </body>
 </html>
