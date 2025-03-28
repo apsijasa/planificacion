@@ -72,19 +72,25 @@ document.addEventListener('DOMContentLoaded', function() {
      * Carga y muestra las planificaciones guardadas
      */
     function loadPlanifications() {
-        // Obtener planificaciones del storage
-        const planifications = getPlanifications();
-        
-        // Mostrar estado vacío si no hay planificaciones
-        if (planifications.length === 0) {
-            planificationsList.innerHTML = '';
-            emptyState.style.display = 'block';
-            return;
+        try {
+            // Obtener planificaciones del storage
+            const planifications = getPlanifications();
+            console.log("Planificaciones cargadas:", planifications); // Para depuración
+            
+            // Mostrar estado vacío si no hay planificaciones
+            if (!planifications || planifications.length === 0) {
+                planificationsList.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            // Ocultar estado vacío y mostrar planificaciones
+            emptyState.style.display = 'none';
+            renderPlanifications(planifications);
+        } catch (error) {
+            console.error("Error al cargar planificaciones:", error);
+            planificationsList.innerHTML = '<div class="error-message">Error al cargar planificaciones: ' + error.message + '</div>';
         }
-        
-        // Ocultar estado vacío y mostrar planificaciones
-        emptyState.style.display = 'none';
-        renderPlanifications(planifications);
     }
     
     /**

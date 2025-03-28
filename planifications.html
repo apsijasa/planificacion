@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,17 +9,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
+
 <body>
     <header>
         <div class="container">
             <div class="logo">
-                <img src="images/logo.png" alt="NataPlan Logo" class="logo-img">
+                <img src="image/logo swimx.jpeg" alt="NataPlan Logo" class="logo-img">
                 <h1>NataPlan</h1>
             </div>
             <nav>
                 <ul>
                     <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
-                    <li><a href="planifications.html" class="active"><i class="fas fa-calendar-alt"></i> Mis Planificaciones</a></li>
+                    <li><a href="planifications.html" class="active"><i class="fas fa-calendar-alt"></i> Mis
+                            Planificaciones</a></li>
                     <li><a href="new-planification.html"><i class="fas fa-plus-circle"></i> Nueva Planificación</a></li>
                     <li><a href="help.html"><i class="fas fa-question-circle"></i> Ayuda</a></li>
                 </ul>
@@ -55,7 +58,8 @@
                             <option value="draft">Borradores</option>
                         </select>
                     </div>
-                    <a href="new-planification.html" class="btn btn-primary"><i class="fas fa-plus"></i> Nueva Planificación</a>
+                    <a href="new-planification.html" class="btn btn-primary"><i class="fas fa-plus"></i> Nueva
+                        Planificación</a>
                 </div>
 
                 <div class="planifications-grid" id="planificationsList">
@@ -99,7 +103,7 @@
             </div>
         </div>
     </footer>
-    
+
     <!-- Plantilla para las tarjetas de planificación (se usará con JavaScript) -->
     <template id="planification-card-template">
         <div class="planification-card">
@@ -152,6 +156,8 @@
         </div>
     </div>
 
+    <script src="js/main.js"></script>
     <script src="js/planifications.js"></script>
 </body>
+
 </html>
