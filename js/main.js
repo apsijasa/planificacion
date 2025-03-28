@@ -243,13 +243,13 @@ function generateUUID() {
 function calculateWeekNumber(startDate, date) {
     const start = new Date(startDate);
     start.setHours(0, 0, 0, 0);
-
+    
     const target = new Date(date);
     target.setHours(0, 0, 0, 0);
-
+    
     const millisecondsPerDay = 24 * 60 * 60 * 1000;
     const diffDays = Math.round((target - start) / millisecondsPerDay);
-
+    
     return Math.floor(diffDays / 7) + 1;
 }
 

@@ -491,26 +491,27 @@ document.addEventListener('DOMContentLoaded', function () {
      */
     function calculateTotalWeeks() {
         if (!startDateInput.value || !endDateInput.value) return 0;
-
+    
         const start = new Date(startDateInput.value);
         const end = new Date(endDateInput.value);
         
         // Establecer horas a 0 para comparación precisa de días
         start.setHours(0, 0, 0, 0);
         end.setHours(0, 0, 0, 0);
-
-        // Calcular diferencia en milisegundos
+        
+        // Calcular diferencia en milisegundos y convertir a días
         const diffTime = Math.abs(end - start);
-        // Convertir a días
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        // Calcular semanas (redondeando hacia arriba)
-        const diffWeeks = Math.ceil(diffDays / 7);
+        
+        // Calcular semanas usando Math.floor y sumar 1 para incluir la semana inicial
+        const diffWeeks = Math.floor(diffDays / 7) + 1;
         
         console.log('Días de diferencia:', diffDays);
         console.log('Semanas calculadas:', diffWeeks);
         
         return diffWeeks;
     }
+    
 
     /**
      * Actualiza el contador de semanas totales
@@ -714,25 +715,25 @@ document.addEventListener('DOMContentLoaded', function () {
         volumeContainer.innerHTML = '';
         const template = document.getElementById('volume-week-template');
         
-        // Asegurarnos de usar el valor actualizado de totalWeeks
-        updateTotalWeeks(); // Actualizar el valor antes de generar la cuadrícula
+        // Actualizar totalWeeks antes de generar la cuadrícula
+        updateTotalWeeks();
         
-        // Crear un elemento para cada semana
+        // Generar un elemento por cada semana real (según planState.totalWeeks)
         for (let i = 0; i < planState.totalWeeks; i++) {
             const clone = document.importNode(template.content, true);
             const weekNumber = i + 1;
             
             clone.querySelector('.week-number').textContent = weekNumber;
             
-            // Si ya tenemos datos para esta semana, usarlos
+            // Si existen datos para esta semana, usarlos
             if (planState.microcycles && planState.microcycles[i]) {
                 clone.querySelector('.week-volume').value = planState.microcycles[i].volumeMeters || 0;
             }
             
-            // Agregar al contenedor
             volumeContainer.appendChild(clone);
         }
     }
+    
 
     /**
      * Calcula el número de semana en una fecha desde la fecha inicial

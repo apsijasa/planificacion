@@ -77,6 +77,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const planifications = getPlanifications();
             console.log("Planificaciones cargadas:", planifications); // Para depuración
             
+            // Convertir y validar totalWeeks en cada planificación
+            planifications.forEach(plan => {
+                plan.totalWeeks = parseInt(plan.totalWeeks, 10) || 0;
+            });
+            
             // Mostrar estado vacío si no hay planificaciones
             if (!planifications || planifications.length === 0) {
                 planificationsList.innerHTML = '';
@@ -127,7 +132,14 @@ document.addEventListener('DOMContentLoaded', function() {
             status.classList.add(getPlanStatusClass(plan));
             startDate.textContent = formatDate(plan.startDate);
             endDate.textContent = formatDate(plan.endDate);
-            weeksCount.textContent = plan.totalWeeks || 0;
+            
+            // Convertir y validar totalWeeks antes de mostrarlo
+            let totalWeeks = parseInt(plan.totalWeeks, 10);
+            if (isNaN(totalWeeks) || totalWeeks < 1) {
+                totalWeeks = 0;
+            }
+            weeksCount.textContent = totalWeeks;
+            
             competitionsCount.textContent = plan.competitions ? plan.competitions.length : 0;
             testsCount.textContent = plan.tests ? plan.tests.length : 0;
             
