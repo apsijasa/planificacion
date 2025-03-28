@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Planificaciones - NataPlan</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="images/logo.png" alt="NataPlan Logo" class="logo-img">
+                <h1>NataPlan</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="planifications.html" class="active"><i class="fas fa-calendar-alt"></i> Mis Planificaciones</a></li>
+                    <li><a href="new-planification.html"><i class="fas fa-plus-circle"></i> Nueva Planificación</a></li>
+                    <li><a href="help.html"><i class="fas fa-question-circle"></i> Ayuda</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h2><i class="fas fa-calendar-alt"></i> Mis Planificaciones</h2>
+                <p>Administra tus planificaciones de entrenamiento guardadas</p>
+            </div>
+        </section>
+
+        <section class="planifications">
+            <div class="container">
+                <div class="planifications-header">
+                    <div class="search-box">
+                        <input type="text" id="searchPlanification" placeholder="Buscar planificación...">
+                        <button><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="filters">
+                        <select id="filterYear">
+                            <option value="">Todos los años</option>
+                            <option value="2025">2025</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                        </select>
+                        <select id="filterStatus">
+                            <option value="">Todos los estados</option>
+                            <option value="active">Activos</option>
+                            <option value="completed">Completados</option>
+                            <option value="draft">Borradores</option>
+                        </select>
+                    </div>
+                    <a href="new-planification.html" class="btn btn-primary"><i class="fas fa-plus"></i> Nueva Planificación</a>
+                </div>
+
+                <div class="planifications-grid" id="planificationsList">
+                    <!-- Las planificaciones se cargarán dinámicamente desde JavaScript -->
+                </div>
+
+                <div class="planifications-empty" id="emptyState" style="display: none;">
+                    <img src="images/empty-calendar.png" alt="No hay planificaciones">
+                    <h3>No tienes planificaciones guardadas</h3>
+                    <p>Comienza creando tu primera planificación de entrenamiento</p>
+                    <a href="new-planification.html" class="btn btn-primary">Crear planificación</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>NataPlan</h2>
+                    <p>Planificación de entrenamientos de natación</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Enlaces</h3>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="planifications.html">Mis Planificaciones</a></li>
+                        <li><a href="new-planification.html">Nueva Planificación</a></li>
+                        <li><a href="help.html">Ayuda</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contacto</h3>
+                    <p>¿Tienes preguntas o sugerencias?</p>
+                    <a href="mailto:contacto@nataplan.com">contacto@nataplan.com</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 NataPlan. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Plantilla para las tarjetas de planificación (se usará con JavaScript) -->
+    <template id="planification-card-template">
+        <div class="planification-card">
+            <div class="planification-card-header">
+                <h3 class="planification-title"></h3>
+                <span class="planification-status"></span>
+            </div>
+            <div class="planification-card-body">
+                <div class="planification-dates">
+                    <p><i class="fas fa-calendar-day"></i> Inicio: <span class="start-date"></span></p>
+                    <p><i class="fas fa-calendar-check"></i> Fin: <span class="end-date"></span></p>
+                </div>
+                <div class="planification-stats">
+                    <div class="stat">
+                        <span class="stat-value weeks-count"></span>
+                        <span class="stat-label">Semanas</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value competitions-count"></span>
+                        <span class="stat-label">Competencias</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value tests-count"></span>
+                        <span class="stat-label">Tests</span>
+                    </div>
+                </div>
+            </div>
+            <div class="planification-card-footer">
+                <a href="#" class="btn btn-view view-btn">Ver</a>
+                <a href="#" class="btn btn-edit edit-btn">Editar</a>
+                <button class="btn btn-delete delete-btn"><i class="fas fa-trash"></i></button>
+            </div>
+        </div>
+    </template>
+
+    <!-- Modal de confirmación para eliminar planificación -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Confirmar eliminación</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro de que deseas eliminar esta planificación? Esta acción no se puede deshacer.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary cancel-delete">Cancelar</button>
+                <button class="btn btn-danger confirm-delete">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/planifications.js"></script>
+</body>
+</html>

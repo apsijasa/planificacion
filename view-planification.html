@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Planificación - NataPlan</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="images/logo.png" alt="NataPlan Logo" class="logo-img">
+                <h1>NataPlan</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="planifications.html" class="active"><i class="fas fa-calendar-alt"></i> Mis Planificaciones</a></li>
+                    <li><a href="new-planification.html"><i class="fas fa-plus-circle"></i> Nueva Planificación</a></li>
+                    <li><a href="help.html"><i class="fas fa-question-circle"></i> Ayuda</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="planification-header">
+            <div class="container">
+                <div class="plan-title-container">
+                    <h2 id="planName">Cargando planificación...</h2>
+                    <span class="plan-status" id="planStatus">Activo</span>
+                </div>
+                <div class="plan-meta">
+                    <p><i class="fas fa-calendar-day"></i> Inicio: <span id="planStartDate"></span></p>
+                    <p><i class="fas fa-calendar-check"></i> Fin: <span id="planEndDate"></span></p>
+                    <p><i class="fas fa-calculator"></i> Semanas: <span id="planTotalWeeks"></span></p>
+                </div>
+                <div class="plan-actions">
+                    <button class="btn btn-secondary" id="btnEdit"><i class="fas fa-edit"></i> Editar</button>
+                    <button class="btn btn-outline" id="btnExport"><i class="fas fa-file-export"></i> Exportar</button>
+                    <button class="btn btn-outline" id="btnPrint"><i class="fas fa-print"></i> Imprimir</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="planification-tabs">
+            <div class="container">
+                <div class="tabs">
+                    <button class="tab-button active" data-tab="overview">General</button>
+                    <button class="tab-button" data-tab="monthly">Mensual</button>
+                    <button class="tab-button" data-tab="weekly">Semanal</button>
+                    <button class="tab-button" data-tab="charts">Gráficos</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="planification-content">
+            <div class="container">
+                <!-- Tab 1: Visión General -->
+                <div class="tab-content active" id="overview-tab">
+                    <div class="overview-grid">
+                        <div class="overview-section cycles-section">
+                            <h3>Ciclos de Entrenamiento</h3>
+                            
+                            <div class="cycle-timeline">
+                                <h4>Macrociclos</h4>
+                                <div class="timeline" id="macrocyclesTimeline">
+                                    <!-- Los macrociclos se cargarán dinámicamente -->
+                                </div>
+                                
+                                <h4>Mesociclos</h4>
+                                <div class="timeline" id="mesocyclesTimeline">
+                                    <!-- Los mesociclos se cargarán dinámicamente -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="overview-section events-section">
+                            <h3>Eventos</h3>
+                            
+                            <div class="event-container">
+                                <h4>Competencias</h4>
+                                <div class="events-list" id="competitionsList">
+                                    <!-- Las competencias se cargarán dinámicamente -->
+                                </div>
+                                
+                                <h4>Tests</h4>
+                                <div class="events-list" id="testsList">
+                                    <!-- Los tests se cargarán dinámicamente -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="overview-section volume-section">
+                            <h3>Volumen de Entrenamiento</h3>
+                            <div class="volume-chart-container">
+                                <canvas id="volumeChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tab 2: Vista Mensual -->
+                <div class="tab-content" id="monthly-tab">
+                    <div class="monthly-controls">
+                        <button class="btn btn-outline" id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                        <h3 id="currentMonthYear">Enero 2025</h3>
+                        <button class="btn btn-outline" id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    
+                    <div class="monthly-calendar" id="monthlyCalendar">
+                        <!-- El calendario mensual se generará dinámicamente -->
+                    </div>
+                </div>
+                
+                <!-- Tab 3: Vista Semanal -->
+                <div class="tab-content" id="weekly-tab">
+                    <div class="weekly-controls">
+                        <button class="btn btn-outline" id="prevWeek"><i class="fas fa-chevron-left"></i></button>
+                        <h3 id="currentWeek">Semana 1: 1 - 7 Enero, 2025</h3>
+                        <button class="btn btn-outline" id="nextWeek"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    
+                    <div class="weekly-details">
+                        <div class="week-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Mesociclo:</span>
+                                <span class="meta-value" id="weekMesocycle">Base</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Volumen:</span>
+                                <span class="meta-value" id="weekVolume">25000 m</span>
+                            </div>
+                        </div>
+                        
+                        <div class="week-grid" id="weekGrid">
+                            <!-- La cuadrícula semanal se generará dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tab 4: Gráficos -->
+                <div class="tab-content" id="charts-tab">
+                    <div class="charts-container">
+                        <div class="chart-card">
+                            <h3>Volumen por Semana</h3>
+                            <div class="chart-container">
+                                <canvas id="weeklyVolumeChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-card">
+                            <h3>Volumen por Mesociclo</h3>
+                            <div class="chart-container">
+                                <canvas id="mesocycleVolumeChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-card">
+                            <h3>Distribución de Competencias</h3>
+                            <div class="chart-container">
+                                <canvas id="competitionsChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-card">
+                            <h3>Intensidad por Semana</h3>
+                            <div class="chart-container">
+                                <canvas id="intensityChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>NataPlan</h2>
+                    <p>Planificación de entrenamientos de natación</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Enlaces</h3>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="planifications.html">Mis Planificaciones</a></li>
+                        <li><a href="new-planification.html">Nueva Planificación</a></li>
+                        <li><a href="help.html">Ayuda</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contacto</h3>
+                    <p>¿Tienes preguntas o sugerencias?</p>
+                    <a href="mailto:contacto@nataplan.com">contacto@nataplan.com</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 NataPlan. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Plantillas para elementos dinámicos -->
+    <template id="competition-item-template">
+        <div class="event-item competition-item">
+            <div class="event-marker"></div>
+            <div class="event-details">
+                <h5 class="event-name"></h5>
+                <p class="event-date"></p>
+                <p class="event-week"></p>
+            </div>
+        </div>
+    </template>
+
+    <template id="test-item-template">
+        <div class="event-item test-item">
+            <div class="event-marker"></div>
+            <div class="event-details">
+                <h5 class="event-name"></h5>
+                <p class="event-date"></p>
+                <p class="event-week"></p>
+                <p class="event-description"></p>
+            </div>
+        </div>
+    </template>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="js/view-planification.js"></script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sitemap - NataPlan</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            background-color: #0099cc;
+            color: white;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        h1 {
+            margin: 0;
+        }
+        
+        h2 {
+            color: #0077b5;
+            border-bottom: 2px solid #0099cc;
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+        
+        .sitemap-section {
+            margin-bottom: 3rem;
+        }
+        
+        .sitemap-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .sitemap-list li {
+            margin-bottom: 1rem;
+        }
+        
+        .sitemap-list li a {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #f1f8fe;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            color: #0099cc;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .sitemap-list li a:hover {
+            background-color: #e1f0fb;
+            border-color: #0099cc;
+        }
+        
+        .sitemap-list li a.primary {
+            background-color: #0099cc;
+            color: white;
+            border-color: #0077b5;
+        }
+        
+        .sitemap-list li a.primary:hover {
+            background-color: #0077b5;
+        }
+        
+        .sitemap-list li a.success {
+            background-color: #28a745;
+            color: white;
+            border-color: #218838;
+        }
+        
+        .sitemap-list li a.success:hover {
+            background-color: #218838;
+        }
+        
+        .sitemap-list li a.warning {
+            background-color: #ffc107;
+            color: #212529;
+            border-color: #e0a800;
+        }
+        
+        .sitemap-list li a.warning:hover {
+            background-color: #e0a800;
+        }
+        
+        .sitemap-list li a.danger {
+            background-color: #dc3545;
+            color: white;
+            border-color: #c82333;
+        }
+        
+        .sitemap-list li a.danger:hover {
+            background-color: #c82333;
+        }
+        
+        .child-pages {
+            margin-left: 2rem;
+            margin-top: 1rem;
+            border-left: 2px solid #dee2e6;
+            padding-left: 1rem;
+        }
+        
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Sitemap de NataPlan</h1>
+            <p>Mapa completo de la aplicación de planificación de entrenamientos de natación</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="sitemap-section">
+            <h2>Navegación Principal</h2>
+            <ul class="sitemap-list">
+                <li>
+                    <a href="index.html" class="primary">Página de Inicio</a>
+                    <div class="child-pages">
+                        <ul class="sitemap-list">
+                            <li><a href="planifications.html" class="primary">Lista de Planificaciones</a></li>
+                            <li><a href="new-planification.html" class="primary">Nueva Planificación</a></li>
+                            <li><a href="help.html">Ayuda</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        
+        <section class="sitemap-section">
+            <h2>Gestión de Planificaciones</h2>
+            <ul class="sitemap-list">
+                <li>
+                    <a href="planifications.html" class="primary">Lista de Planificaciones</a>
+                    <div class="child-pages">
+                        <ul class="sitemap-list">
+                            <li><a href="view-planification.html" class="primary">Ver Planificación</a></li>
+                            <li><a href="edit-planification.html" class="warning">Editar Planificación</a></li>
+                            <li><a href="#" class="danger">Eliminar Planificación</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        
+        <section class="sitemap-section">
+            <h2>Visualización de Planificación</h2>
+            <ul class="sitemap-list">
+                <li>
+                    <a href="view-planification.html" class="primary">Ver Planificación</a>
+                    <div class="child-pages">
+                        <ul class="sitemap-list">
+                            <li><a href="#">Vista General</a></li>
+                            <li><a href="#">Vista Mensual</a></li>
+                            <li><a href="#">Vista Semanal</a></li>
+                            <li><a href="#">Vista de Gráficos</a></li>
+                            <li><a href="edit-planification.html" class="warning">Editar Planificación</a></li>
+                            <li><a href="#" class="success">Exportar Planificación (CSV)</a></li>
+                            <li><a href="#" class="success">Imprimir Planificación</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        
+        <section class="sitemap-section">
+            <h2>Creación/Edición de Planificación</h2>
+            <ul class="sitemap-list">
+                <li>
+                    <a href="new-planification.html" class="primary">Nueva Planificación</a>
+                    <div class="child-pages">
+                        <ul class="sitemap-list">
+                            <li><a href="#">Paso 1: Información Básica</a></li>
+                            <li><a href="#">Paso 2: Ciclos (Macrociclos y Mesociclos)</a></li>
+                            <li><a href="#">Paso 3: Competencias y Tests</a></li>
+                            <li><a href="#">Paso 4: Configuración Avanzada</a></li>
+                            <li><a href="#" class="success">Guardar Planificación</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="edit-planification.html" class="warning">Editar Planificación</a>
+                    <div class="child-pages">
+                        <p>Sigue el mismo flujo que Nueva Planificación, pero con los datos precargados.</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        
+        <section class="sitemap-section">
+            <h2>Archivos JavaScript y CSS</h2>
+            <ul class="sitemap-list">
+                <li><a href="styles.css">styles.css - Estilos globales de la aplicación</a></li>
+                <li><a href="js/main.js">main.js - Funciones comunes y utilitarias</a></li>
+                <li><a href="js/planifications.js">planifications.js - Lógica para lista de planificaciones</a></li>
+                <li><a href="js/new-planification.js">new-planification.js - Lógica para crear/editar planificaciones</a></li>
+                <li><a href="js/view-planification.js">view-planification.js - Lógica para visualizar planificaciones</a></li>
+            </ul>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 NataPlan. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
